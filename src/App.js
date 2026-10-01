@@ -515,4 +515,15 @@ export default function App() {
                     In: {currentReservation.checkInTime}
                   </p>
                   <p className="text-rose-700 font-bold">
-                    Out: {currentReservation.checkOu
+                    Out: {currentReservation.checkOut}
+                  </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default App;
