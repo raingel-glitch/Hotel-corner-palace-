@@ -30,7 +30,7 @@ export default function App() {
   const [subTab, setSubTab] = useState('Room View'); // Room View, HK Room Status, dll
   
   const [showBillingModal, setShowBillingModal] = useState(false);
-  currentReservation, setCurrentReservation] = useState(null);
+  const [currentReservation, setCurrentReservation] = useState(null);
   
   // Real-time Clock State
   const [currentTime, setCurrentTime] = useState(new Date());
