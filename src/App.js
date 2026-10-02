@@ -47,7 +47,7 @@ export default function App() {
     return () => clearInterval(timer);
   }, []);
 
-  // Data Seluruh Kamar (Semua Diset VACANT & READY)
+  // Data Seluruh Kamar (Updated Sesuai List Kamu)
   const [rooms, setRooms] = useState([
     // LANTAI 1
     { id: '102', floor: 1, type: 'BUSSINES ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 425000 },
@@ -81,7 +81,7 @@ export default function App() {
     { id: '325', floor: 3, type: 'BUSSINES ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 425000 },
   ]);
 
-  // Data Reservasi (KOSONG DULU)
+  // Data Reservasi
   const [reservations, setReservations] = useState([]);
 
   // Form Registration State
@@ -90,10 +90,10 @@ export default function App() {
     phone: '',
     idCard: '',
     gender: 'Laki-laki',
-    roomNumber: '101',
-    roomType: 'SUPERRIOR ROOM',
+    roomNumber: '102',
+    roomType: 'BUSSINES ROOM',
     source: 'Walk-In',
-    price: 325000
+    price: 425000
   });
 
   // Update Tipe Kamar & Harga ketika Nomor Kamar dipilih
@@ -322,7 +322,7 @@ export default function App() {
               <span><strong>Petunjuk:</strong> Klik pada kamar kosong (VC) untuk <strong>Registrasi Check-In</strong>, atau klik kamar terisi (OC) untuk membuka <strong>Kasir / Checkout</strong>.</span>
             </div>
 
-            {['KING MARVELS', 'GRAND DELUXE', 'BUSSINES ROOM', 'SUPERRIOR ROOM', 'EKONOMIS ROOM', 'DRIVER'].map((roomCategory) => {
+            {['KING MARVELS', 'GRAND DELUXE', 'BUSSINES ROOM', 'SUPERRIOR ROOM', 'EKONOMIS ROOM', 'DRIVER ROOM'].map((roomCategory) => {
               const categoryRooms = rooms.filter(r => r.type === roomCategory);
               if (categoryRooms.length === 0) return null;
 
