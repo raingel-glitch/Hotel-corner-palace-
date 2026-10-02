@@ -14,11 +14,11 @@ import {
 } from 'lucide-react';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('roomRack'); // 'dashboard', 'roomRack', 'newBooking'
+  const [activeTab, setActiveTab] = useState('roomRack');
   const [showInvoiceModal, setShowInvoiceModal] = useState(false);
   const [currentReservation, setCurrentReservation] = useState(null);
 
-  // Data Kamar (Lantai 1, 2, & 3 sesuai data)
+  // Data Kamar
   const [rooms, setRooms] = useState([
     // LANTAI 1
     { id: '102', floor: 1, type: 'Business Room', status: 'Available', guest: '-', priceOnly: 425000, pricePackage: 500000 },
@@ -53,7 +53,7 @@ export default function App() {
     { id: '325', floor: 3, type: 'Business Room', status: 'Available', guest: '-', priceOnly: 425000, pricePackage: 500000 },
   ]);
 
-  // Data Reservasi Contoh
+  // Data Reservasi
   const [reservations, setReservations] = useState([
     {
       id: 1,
@@ -222,7 +222,7 @@ export default function App() {
           </div>
         </div>
 
-        {/* MODUL 1: ROOM RACK DENGAN PENGELOMPOKAN LANTAI */}
+        {/* MODUL 1: ROOM RACK */}
         {activeTab === 'roomRack' && (
           <div className="space-y-6">
             {[1, 2, 3].map((floorNum) => (
@@ -402,4 +402,84 @@ export default function App() {
                   </select>
                 </div>
                 <div>
-    
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">Total Harga Tarif</label>
+                  <input 
+                    type="text" 
+                    disabled
+                    className="w-full p-2.5 border rounded-lg text-sm border-slate-200 bg-slate-100 font-bold text-sky-800"
+                    value={`Rp ${formData.price.toLocaleString('id-ID')}`}
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-3 pt-4 border-t">
+                <button 
+                  type="submit" 
+                  className="flex-1 bg-sky-600 hover:bg-sky-700 text-white font-semibold py-2.5 rounded-lg text-sm transition"
+                >
+                  Proses Check-In
+                </button>
+                <button 
+                  type="button" 
+                  onClick={() => setActiveTab('roomRack')}
+                  className="px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 rounded-lg text-sm"
+                >
+                  Batal
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+
+      </main>
+
+      {/* MODAL PRINT INVOICE */}
+      {showInvoiceModal && currentReservation && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg max-w-lg w-full p-6 space-y-4 shadow-xl">
+            <div className="flex justify-between items-center border-b pb-3">
+              <h3 className="font-bold text-slate-800">Cetak Bukti Pembayaran</h3>
+              <button onClick={() => setShowInvoiceModal(false)} className="text-slate-400 hover:text-slate-600">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="border p-4 rounded bg-slate-50 space-y-3 font-sans">
+              <div className="border-b-2 border-slate-800 pb-2 flex justify-between items-start">
+                <div>
+                  <h2 className="font-black text-sm text-slate-900">HOTEL CORNER PALACE</h2>
+                  <p className="text-[10px] text-slate-500">Guest Invoice / Bukti Pembayaran</p>
+                </div>
+                <span className="font-mono font-bold text-xs bg-slate-900 text-white px-2 py-0.5 rounded">
+                  #{currentReservation.folioNumber}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-[10px]">
+                <div>
+                  <p><strong>Tamu:</strong> {currentReservation.guestName}</p>
+                  <p><strong>ID ({currentReservation.idType}):</strong> {currentReservation.idNumber}</p>
+                  <p><strong>Sumber:</strong> {currentReservation.source}</p>
+                </div>
+                <div>
+                  <p><strong>Kamar:</strong> {currentReservation.roomNumber} ({currentReservation.roomType})</p>
+                  <p><strong>Paket:</strong> {currentReservation.rateType}</p>
+                  <p className="font-bold text-sky-800">Tarif: Rp {currentReservation.price?.toLocaleString('id-ID')}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2 pt-2">
+              <button
+                onClick={() => window.print()}
+                className="bg-sky-600 hover:bg-sky-700 text-white font-bold px-4 py-2 rounded text-xs flex items-center gap-1"
+              >
+                <Printer className="w-4 h-4" /> Cetak
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
