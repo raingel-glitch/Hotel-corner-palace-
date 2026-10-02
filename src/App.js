@@ -10,7 +10,8 @@ import {
   ClipboardList,
   CheckCircle2,
   Sparkles,
-  X
+  X,
+  AlertTriangle
 } from 'lucide-react';
 
 export default function App() {
@@ -85,6 +86,20 @@ export default function App() {
     checkOut: '2026-10-03 12:00'
   });
 
+  // Fungsi Mengubah Status Kamar Manual (HK / Maintenance)
+  const handleStatusChange = (roomId, newStatus) => {
+    setRooms(rooms.map(room => {
+      if (room.id === roomId) {
+        return {
+          ...room,
+          status: newStatus,
+          guest: newStatus === 'Available' || newStatus === 'Dirty' || newStatus === 'OOO' ? '-' : room.guest
+        };
+      }
+      return room;
+    }));
+  };
+
   const handleRoomChange = (roomNum) => {
     const selectedRoom = rooms.find(r => r.id === roomNum);
     if (!selectedRoom) return;
@@ -139,18 +154,8 @@ export default function App() {
       case 'Available': return 'bg-emerald-50 border-emerald-300 text-emerald-900';
       case 'Occupied': return 'bg-sky-50 border-sky-300 text-sky-900';
       case 'Dirty': return 'bg-amber-50 border-amber-300 text-amber-900';
-      case 'Maintenance': return 'bg-rose-50 border-rose-300 text-rose-900';
+      case 'OOO': return 'bg-rose-50 border-rose-300 text-rose-900';
       default: return 'bg-slate-50 border-slate-300 text-slate-800';
-    }
-  };
-
-  const getStatusBadge = (status) => {
-    switch (status) {
-      case 'Available': return <span className="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-xs font-bold">Tersedia</span>;
-      case 'Occupied': return <span className="bg-sky-100 text-sky-800 px-2 py-0.5 rounded text-xs font-bold">Terisi</span>;
-      case 'Dirty': return <span className="bg-amber-100 text-amber-800 px-2 py-0.5 rounded text-xs font-bold">Kotor</span>;
-      case 'Maintenance': return <span className="bg-rose-100 text-rose-800 px-2 py-0.5 rounded text-xs font-bold">Perbaikan</span>;
-      default: return null;
     }
   };
 
@@ -208,15 +213,15 @@ export default function App() {
           </div>
           <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
             <div>
-              <p className="text-xs text-slate-500 font-medium">Kamar Kosong</p>
+              <p className="text-xs text-slate-500 font-medium">Siap huni (Ready)</p>
               <h3 className="text-2xl font-bold text-emerald-600">{rooms.filter(r => r.status === 'Available').length}</h3>
             </div>
             <CheckCircle2 className="w-7 h-7 text-emerald-500" />
           </div>
           <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
             <div>
-              <p className="text-xs text-slate-500 font-medium">Perlu Dibersihkan</p>
-              <h3 className="text-2xl font-bold text-amber-600">{rooms.filter(r => r.status === 'Dirty').length}</h3>
+              <p className="text-xs text-slate-500 font-medium">Kotor / OOO</p>
+              <h3 className="text-2xl font-bold text-amber-600">{rooms.filter(r => r.status === 'Dirty' || r.status === 'OOO').length}</h3>
             </div>
             <Sparkles className="w-7 h-7 text-amber-500" />
           </div>
@@ -235,19 +240,38 @@ export default function App() {
                   {rooms.filter(r => r.floor === floorNum).map((room) => (
                     <div 
                       key={room.id} 
-                      className={`p-4 rounded-xl border-2 transition shadow-sm hover:shadow-md flex flex-col justify-between h-36 ${getStatusColor(room.status)}`}
+                      className={`p-3.5 rounded-xl border-2 transition shadow-sm hover:shadow-md flex flex-col justify-between h-40 ${getStatusColor(room.status)}`}
                     >
                       <div className="flex justify-between items-start">
                         <div>
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block truncate max-w-[90px]">{room.type}</span>
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block truncate max-w-[85px]">{room.type}</span>
                           <h4 className="text-2xl font-black">{room.id}</h4>
                         </div>
-                        {getStatusBadge(room.status)}
+
+                        {/* SELECTOR STATUS HK */}
+                        <select
+                          value={room.status}
+                          onChange={(e) => handleStatusChange(room.id, e.target.value)}
+                          className="text-[11px] font-bold rounded px-1.5 py-0.5 border shadow-sm outline-none cursor-pointer bg-white text-slate-800"
+                        >
+                          <option value="Available">Ready</option>
+                          <option value="Occupied">Occupied</option>
+                          <option value="Dirty">Dirty</option>
+                          <option value="OOO">OOO</option>
+                        </select>
                       </div>
 
-                      <div className="text-xs font-semibold">
+                      <div className="text-xs font-semibold mt-1">
                         {room.status === 'Occupied' ? (
-                          <span className="truncate block">👤 {room.guest}</span>
+                          <span className="truncate block font-medium text-sky-900">👤 {room.guest}</span>
+                        ) : room.status === 'Dirty' ? (
+                          <span className="text-amber-800 text-[11px] font-medium flex items-center gap-1">
+                            <Sparkles className="w-3 h-3" /> Perlu Dibersihkan
+                          </span>
+                        ) : room.status === 'OOO' ? (
+                          <span className="text-rose-800 text-[11px] font-medium flex items-center gap-1">
+                            <AlertTriangle className="w-3 h-3" /> Out of Order
+                          </span>
                         ) : (
                           <div className="text-[11px] space-y-0.5">
                             <p>Only: Rp {room.priceOnly.toLocaleString('id-ID')}</p>
@@ -361,7 +385,7 @@ export default function App() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-600 mb-1">Pilih Kamar</label>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">Pilih Kamar (Tersedia)</label>
                   <select 
                     className="w-full p-2.5 border rounded-lg text-sm border-slate-300 bg-white"
                     value={formData.roomNumber}
@@ -433,48 +457,83 @@ export default function App() {
 
       </main>
 
-      {/* MODAL PRINT INVOICE */}
+      {/* MODAL PRINT INVOICE - UKURAN BESAR & RAPI */}
       {showInvoiceModal && currentReservation && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg max-w-lg w-full p-6 space-y-4 shadow-xl">
-            <div className="flex justify-between items-center border-b pb-3">
-              <h3 className="font-bold text-slate-800">Cetak Bukti Pembayaran</h3>
-              <button onClick={() => setShowInvoiceModal(false)} className="text-slate-400 hover:text-slate-600">
-                <X className="w-5 h-5" />
+          <div className="bg-white rounded-xl max-w-2xl w-full p-8 space-y-6 shadow-2xl overflow-y-auto max-h-[90vh]">
+            <div className="flex justify-between items-center border-b pb-4">
+              <h3 className="font-bold text-slate-800 text-lg">Pratinjau Bukti Pembayaran</h3>
+              <button onClick={() => setShowInvoiceModal(false)} className="text-slate-400 hover:text-slate-600 p-1">
+                <X className="w-6 h-6" />
               </button>
             </div>
 
-            <div className="border p-4 rounded bg-slate-50 space-y-3 font-sans">
-              <div className="border-b-2 border-slate-800 pb-2 flex justify-between items-start">
+            {/* INVOICE CARD */}
+            <div className="border border-slate-300 p-6 rounded-lg bg-white space-y-6 font-sans text-slate-800 shadow-inner">
+              <div className="border-b-2 border-slate-900 pb-4 flex justify-between items-start">
                 <div>
-                  <h2 className="font-black text-sm text-slate-900">HOTEL CORNER PALACE</h2>
-                  <p className="text-[10px] text-slate-500">Guest Invoice / Bukti Pembayaran</p>
+                  <h2 className="font-black text-xl text-slate-900">HOTEL CORNER PALACE</h2>
+                  <p className="text-xs text-slate-500">Jl. Corner Palace No. 1, Kota</p>
+                  <p className="text-xs text-slate-500">GUEST INVOICE / BUKTI PEMBAYARAN</p>
                 </div>
-                <span className="font-mono font-bold text-xs bg-slate-900 text-white px-2 py-0.5 rounded">
-                  #{currentReservation.folioNumber}
-                </span>
+                <div className="text-right">
+                  <span className="font-mono font-bold text-sm bg-slate-900 text-white px-3 py-1 rounded inline-block mb-1">
+                    #{currentReservation.folioNumber}
+                  </span>
+                  <p className="text-xs text-slate-500">Tanggal: {currentReservation.checkInTime.split(' ')[0]}</p>
+                </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 text-[10px]">
-                <div>
-                  <p><strong>Tamu:</strong> {currentReservation.guestName}</p>
-                  <p><strong>ID ({currentReservation.idType}):</strong> {currentReservation.idNumber}</p>
-                  <p><strong>Sumber:</strong> {currentReservation.source}</p>
+              {/* DETAILS */}
+              <div className="grid grid-cols-2 gap-6 text-sm">
+                <div className="space-y-1.5">
+                  <p className="text-xs text-slate-400 uppercase font-semibold">Informasi Tamu</p>
+                  <p><strong>Nama:</strong> {currentReservation.guestName}</p>
+                  <p><strong>{currentReservation.idType}:</strong> {currentReservation.idNumber}</p>
+                  <p><strong>Sumber Reservasi:</strong> {currentReservation.source}</p>
                 </div>
-                <div>
-                  <p><strong>Kamar:</strong> {currentReservation.roomNumber} ({currentReservation.roomType})</p>
-                  <p><strong>Paket:</strong> {currentReservation.rateType}</p>
-                  <p className="font-bold text-sky-800">Tarif: Rp {currentReservation.price?.toLocaleString('id-ID')}</p>
+                <div className="space-y-1.5">
+                  <p className="text-xs text-slate-400 uppercase font-semibold">Rincian Menginap</p>
+                  <p><strong>No. Kamar:</strong> {currentReservation.roomNumber}</p>
+                  <p><strong>Tipe Kamar:</strong> {currentReservation.roomType}</p>
+                  <p><strong>Skema Tarif:</strong> {currentReservation.rateType}</p>
+                </div>
+              </div>
+
+              {/* TABLE SUMMARY */}
+              <table className="w-full text-left text-sm border-t border-b border-slate-200 my-4">
+                <thead>
+                  <tr className="bg-slate-50 text-slate-600">
+                    <th className="py-2.5 px-3">Deskripsi</th>
+                    <th className="py-2.5 px-3 text-right">Jumlah</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="py-3 px-3">Sewa Kamar {currentReservation.roomType} ({currentReservation.rateType})</td>
+                    <td className="py-3 px-3 text-right font-bold text-slate-900">Rp {currentReservation.price?.toLocaleString('id-ID')}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div className="flex justify-between items-center pt-2">
+                <div className="text-xs text-slate-500">
+                  <p>Status: <span className="font-semibold text-emerald-600">Lunas / Paid</span></p>
+                  <p>Terima kasih telah menginap di Hotel Corner Palace.</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-xs text-slate-500">Total Pembayaran</p>
+                  <p className="text-2xl font-black text-sky-700">Rp {currentReservation.price?.toLocaleString('id-ID')}</p>
                 </div>
               </div>
             </div>
 
-            <div className="flex justify-end gap-2 pt-2">
+            <div className="flex justify-end gap-3 pt-2">
               <button
                 onClick={() => window.print()}
-                className="bg-sky-600 hover:bg-sky-700 text-white font-bold px-4 py-2 rounded text-xs flex items-center gap-1"
+                className="bg-sky-600 hover:bg-sky-700 text-white font-bold px-5 py-2.5 rounded-lg text-sm flex items-center gap-2 transition"
               >
-                <Printer className="w-4 h-4" /> Cetak
+                <Printer className="w-4 h-4" /> Cetak Invoice
               </button>
             </div>
           </div>
