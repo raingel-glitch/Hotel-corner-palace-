@@ -55,6 +55,7 @@ export default function App() {
     { id: '104', floor: 1, type: 'SUPERRIOR ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 325000 },
 
     // LANTAI 2
+    { id: '207', floor: 2, type: 'DRIVER ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 175000 },
     { id: '209', floor: 2, type: 'SUPERRIOR ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 325000 },
     { id: '210', floor: 2, type: 'SUPERRIOR ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 325000 },
     { id: '214', floor: 2, type: 'SUPERRIOR ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 325000 },
