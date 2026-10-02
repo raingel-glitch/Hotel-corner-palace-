@@ -50,30 +50,33 @@ export default function App() {
   // Data Seluruh Kamar (Semua Diset VACANT & READY)
   const [rooms, setRooms] = useState([
     // LANTAI 1
-    { id: '101', floor: 1, type: 'SUPERRIOR ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 325000 },
     { id: '102', floor: 1, type: 'BUSSINES ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 425000 },
     { id: '103', floor: 1, type: 'SUPERRIOR ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 325000 },
     { id: '104', floor: 1, type: 'SUPERRIOR ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 325000 },
 
     // LANTAI 2
-    { id: '201', floor: 2, type: 'EKONOMIS ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 225000 },
-    { id: '202', floor: 2, type: 'SUPERRIOR ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 325000 },
-    { id: '203', floor: 2, type: 'SUPERRIOR ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 325000 },
-    { id: '204', floor: 2, type: 'SUPERRIOR ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 325000 },
-    { id: '205', floor: 2, type: 'SUPERRIOR ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 325000 },
-    { id: '206', floor: 2, type: 'SUPERRIOR ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 325000 },
-    { id: '207', floor: 2, type: 'DRIVER', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 175000 },
-    { id: '208', floor: 2, type: 'SUPERRIOR ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 325000 },
     { id: '209', floor: 2, type: 'SUPERRIOR ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 325000 },
     { id: '210', floor: 2, type: 'SUPERRIOR ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 325000 },
+    { id: '214', floor: 2, type: 'SUPERRIOR ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 325000 },
+    { id: '226', floor: 2, type: 'SUPERRIOR ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 325000 },
+    { id: '227', floor: 2, type: 'SUPERRIOR ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 325000 },
     { id: '218', floor: 2, type: 'EKONOMIS ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 225000 },
+    { id: '225', floor: 2, type: 'EKONOMIS ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 225000 },
     { id: '228', floor: 2, type: 'SUPERRIOR ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 325000 },
+    { id: '221', floor: 2, type: 'BUSSINES ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 425000 },
     { id: '229', floor: 2, type: 'BUSSINES ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 425000 },
+    { id: '230', floor: 2, type: 'BUSSINES ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 425000 },
+    { id: '232', floor: 2, type: 'BUSSINES ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 425000 },
 
     // LANTAI 3
-    { id: '311', floor: 3, type: 'KING MARVELS', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 625000 },
+    { id: '311', floor: 3, type: 'KING MARVELS', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 550000 },
     { id: '316', floor: 3, type: 'GRAND DELUXE', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 525000 },
+    { id: '317', floor: 3, type: 'GRAND DELUXE', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 525000 },
+    { id: '319', floor: 3, type: 'GRAND DELUXE', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 525000 },
+    { id: '320', floor: 3, type: 'GRAND DELUXE', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 525000 },
+    { id: '321', floor: 3, type: 'GRAND DELUXE', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 525000 },
     { id: '322', floor: 3, type: 'BUSSINES ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 425000 },
+    { id: '323', floor: 3, type: 'BUSSINES ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 425000 },
     { id: '325', floor: 3, type: 'BUSSINES ROOM', status: 'VC', hkStatus: 'Ready', guest: '-', priceOnly: 425000 },
   ]);
 
